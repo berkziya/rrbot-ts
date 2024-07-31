@@ -1,22 +1,10 @@
-import { LoaderFunctionArgs } from '@remix-run/node';
 import { Link, Outlet, useLoaderData } from '@remix-run/react';
-import { Player } from 'ozen-bot/dist/entity/Player';
 import invariant from 'tiny-invariant';
 import { client } from '~/entry.server';
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export const loader = async () => {
   invariant(client, 'Client is not initialized');
-
-  const playerId = parseInt(params.$playerId || '');
-
   const users = client.users;
-  if (!playerId) {
-    return { users, user: null };
-  }
-
-  const user = users.find((u) => u.id === playerId);
-  invariant(user, 'Player not found');
-
   return { users };
 };
 
@@ -37,7 +25,7 @@ export default function Players() {
           </Link>
         ))}
       </div>
-      <Outlet context={users} />
+      <Outlet />
     </div>
   );
 }

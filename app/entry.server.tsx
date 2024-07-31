@@ -6,17 +6,16 @@ import { RemixServer } from '@remix-run/react';
 import * as isbotModule from 'isbot';
 import { renderToPipeableStream } from 'react-dom/server';
 import { Client } from 'ozen-bot/dist/Client';
+import invariant from 'tiny-invariant';
 
 const ABORT_DELAY = 5_000;
 
-let client: Client | null = null;
+let client: Client;
 
 async function initializeClient() {
   client = new Client({ browserType: 'firefox' });
   const browser = await client.init();
-  if (!browser) {
-    throw new Error('Failed to initialize browser');
-  }
+  invariant(browser, 'Browser not initialized');
   return true;
 }
 

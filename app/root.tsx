@@ -7,13 +7,6 @@ import {
   useLoaderData,
 } from '@remix-run/react';
 import './tailwind.css';
-import { LoaderFunction } from '@remix-run/node';
-
-export const loader: LoaderFunction = async () => {
-  // Fetch initial data here
-  const data = await fetchInitialData();
-  return data;
-};
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -37,10 +30,5 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const data = useLoaderData();
-  return <Outlet context={data} />;
-}
-
-async function fetchInitialData() {
-  // Replace with your data fetching logic
-  return { key: 'value' };
+  return <Outlet />;
 }
