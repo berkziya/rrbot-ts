@@ -10,9 +10,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@remix-run/node": "^2.10.3",
-    "@remix-run/react": "^2.10.3",
-    "@remix-run/serve": "^2.10.3",
+    "@remix-run/node": "^2.11.0",
+    "@remix-run/react": "^2.11.0",
+    "@remix-run/serve": "^2.11.0",
     "isbot": "^4.4.0",
     "ozen-bot": "github:berkziya/ozen-bot",
     "react": "^18.3.1",
@@ -20,7 +20,7 @@
     "tiny-invariant": "^1.3.3"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.10.3",
+    "@remix-run/dev": "^2.11.0",
     "@types/async-lock": "^1.4.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

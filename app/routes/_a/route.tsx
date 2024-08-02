@@ -18,7 +18,7 @@ export default function Players() {
         </Link>
         {users.map((u) => (
           <Link
-            to={`/users/${u.id}`}
+            to={`/data/player/${u.id}`}
             className='p-6 content-center bg-cyan-200 even:bg-cyan-300'
           >
             {u.id}
