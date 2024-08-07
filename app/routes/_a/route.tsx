@@ -2,11 +2,11 @@ import { Link, Outlet, useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 import { client } from '~/entry.server';
 
-export const loader = async () => {
+export async function loader() {
   invariant(client, 'Client is not initialized');
-  const users = client.users;
+  const users = [...client.users];
   return { users };
-};
+}
 
 export default function Players() {
   const { users } = useLoaderData<typeof loader>();
@@ -18,6 +18,7 @@ export default function Players() {
         </Link>
         {users.map((u) => (
           <Link
+            key={u.id}
             to={`/data/player/${u.id}`}
             className='p-6 content-center bg-cyan-200 even:bg-cyan-300'
           >

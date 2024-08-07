@@ -4,7 +4,7 @@ import invariant from 'tiny-invariant';
 import { client } from '~/entry.server';
 
 export async function loader() {
-  return { users: client?.users };
+  return null;
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -18,8 +18,8 @@ export async function action({ request }: ActionFunctionArgs) {
   const result = await user.login(email, password);
 
   invariant(result, 'Login failed');
-
-  return json({ users: client.users });
+  const users = [...client.users];
+  return json({ users });
 }
 
 export default function Login() {
@@ -31,8 +31,7 @@ export default function Login() {
         <input type='password' name='password' className='' />
         <button type='submit'>Submit</button>
       </Form>
-      {/* {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : null} */}
-      {users ? <pre>{JSON.stringify(users, null, 2)}</pre> : null}
+      {users ? <p>{JSON.stringify(users, null, 2)}</p> : null}
     </div>
   );
 }
