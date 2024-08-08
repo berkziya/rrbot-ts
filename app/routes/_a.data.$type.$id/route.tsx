@@ -1,18 +1,15 @@
 import { useLoaderData } from '@remix-run/react';
-import invariant from 'tiny-invariant';
-import { client } from '~/entry.server';
 import { getPlayerInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getPlayerInfo';
 import { getRegionInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getRegionInfo';
 import { getAutonomyInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getAutonomyInfo';
 import { getStateInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getStateInfo';
 import { getFactoryInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getFactoryInfo';
 import { LoaderFunctionArgs } from '@remix-run/node';
+import ClientHandler from '~/.server/clientHandler';
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  invariant(client, 'Client is not initialized');
-  const usersArray = [...client.users];
-  const user = usersArray[Math.floor(Math.random() * usersArray.length)];
-  invariant(user, 'Player not found');
+  const client = await ClientHandler.getInstance();
+  const user = await client.getUser();
   const id = parseInt(params.id!);
   const type = params.type;
   let data: any = null;

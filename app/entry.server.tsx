@@ -5,23 +5,20 @@ import { createReadableStreamFromReadable } from '@remix-run/node';
 import { RemixServer } from '@remix-run/react';
 import * as isbotModule from 'isbot';
 import { renderToPipeableStream } from 'react-dom/server';
-import { Client } from 'ozen-bot/dist/Client';
-import invariant from 'tiny-invariant';
+import ClientHandler from './.server/clientHandler';
 
 const ABORT_DELAY = 5_000;
 
-let client: Client;
-
-async function initializeClient() {
-  client = new Client({ browserType: 'firefox' });
-  const browser = await client.init();
-  invariant(browser, 'Browser not initialized');
-  return true;
+async function initializeClientHandler() {
+  try {
+    await ClientHandler.getInstance();
+    console.log('ClientHandler initialized successfully');
+  } catch (error) {
+    console.error('Failed to initialize ClientHandler:', error);
+  }
 }
 
-initializeClient().catch(console.error);
-
-export { client };
+initializeClientHandler();
 
 export default function handleRequest(
   request: Request,

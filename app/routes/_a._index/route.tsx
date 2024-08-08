@@ -1,15 +1,15 @@
 import { ActionFunctionArgs, json } from '@remix-run/node';
 import { Form, useActionData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
-import { client } from '~/entry.server';
+import ClientHandler from '~/.server/clientHandler';
 
 export async function loader() {
   return null;
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  invariant(client, 'Client is not initialized');
-
+  const client = (await ClientHandler.getInstance()).getClient();
+  invariant(client, 'Client not initialized');
   const formData = await request.formData();
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
