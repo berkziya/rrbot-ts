@@ -1,4 +1,5 @@
-import { Client, UserContext } from 'ozen-bot/dist/Client';
+import { Client } from 'ozen-bot/dist/Client';
+import { UserContext } from 'ozen-bot/dist/UserContext';
 import invariant from 'tiny-invariant';
 
 class ClientHandler {
@@ -17,7 +18,7 @@ class ClientHandler {
 
   private async initializeClient() {
     this.client = new Client({ browserType: 'firefox' });
-    const browser = await this.client.init();
+    const browser = await this.client.init({ headless: true });
     invariant(browser, 'Browser not initialized');
   }
 
@@ -33,7 +34,7 @@ class ClientHandler {
     return this.client !== null;
   }
 
-  public async getUser(playerId?: number): Promise<UserContext> {
+  public async getUser(playerId?: number) {
     const usersArray = Array.from(this.getClient().users);
     if (!playerId) {
       const user = usersArray[Math.floor(Math.random() * usersArray.length)];

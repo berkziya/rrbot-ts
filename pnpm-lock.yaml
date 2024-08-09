@@ -22,7 +22,7 @@ importers:
         version: 4.4.0
       ozen-bot:
         specifier: github:berkziya/ozen-bot
-        version: https://codeload.github.com/berkziya/ozen-bot/tar.gz/33f16044192125c7a80ee9eb0c225b9f5c55e048
+        version: https://codeload.github.com/berkziya/ozen-bot/tar.gz/f857e66c6fac89a3f58e7af5671a912cef75cfc2
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -61,8 +61,8 @@ importers:
         specifier: ^8.4.41
         version: 8.4.41
       tailwindcss:
-        specifier: ^3.4.8
-        version: 3.4.8
+        specifier: ^3.4.9
+        version: 3.4.9
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
@@ -2255,8 +2255,8 @@ packages:
   outdent@0.8.0:
     resolution: {integrity: sha512-KiOAIsdpUTcAXuykya5fnVVT+/5uS0Q1mrkRHcF89tpieSmY33O/tmc54CqwA+bfhbtEfZUNLHaPUiB9X3jt1A==}
 
-  ozen-bot@https://codeload.github.com/berkziya/ozen-bot/tar.gz/33f16044192125c7a80ee9eb0c225b9f5c55e048:
-    resolution: {tarball: https://codeload.github.com/berkziya/ozen-bot/tar.gz/33f16044192125c7a80ee9eb0c225b9f5c55e048}
+  ozen-bot@https://codeload.github.com/berkziya/ozen-bot/tar.gz/f857e66c6fac89a3f58e7af5671a912cef75cfc2:
+    resolution: {tarball: https://codeload.github.com/berkziya/ozen-bot/tar.gz/f857e66c6fac89a3f58e7af5671a912cef75cfc2}
     version: 0.0.7
 
   p-limit@3.1.0:
@@ -2831,8 +2831,8 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  tailwindcss@3.4.8:
-    resolution: {integrity: sha512-GkP17r9GQkxgZ9FKHJQEnjJuKBcbFhMFzKu5slmN6NjlCuFnYJMQ8N4AZ6VrUyiRXlDtPKHkesuQ/MS913Nvdg==}
+  tailwindcss@3.4.9:
+    resolution: {integrity: sha512-1SEOvRr6sSdV5IDf9iC+NU4dhwdqzF4zKKq3sAbasUWHEM6lsMhX+eNN5gkPx1BvLFEnZQEUFbXnGj8Qlp83Pg==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -2938,8 +2938,8 @@ packages:
   undici-types@6.13.0:
     resolution: {integrity: sha512-xtFJHudx8S2DSoujjMd1WeWvn7KKWFRESZTMeL1RptAYERu29D6jphMjjY+vn96jvN3kVPDNxU/E13VTaXj6jg==}
 
-  undici@6.19.5:
-    resolution: {integrity: sha512-LryC15SWzqQsREHIOUybavaIHF5IoL0dJ9aWWxL/PgT1KfqAW5225FZpDUFlt9xiDMS2/S7DOKhFWA7RLksWdg==}
+  undici@6.19.6:
+    resolution: {integrity: sha512-KfINKY5js30ub8NAGQlUyxldk2NTvNkyKBnJtMpSVCk8fqrPpUDEvDkHV6t+lTHCv9NwbUcHU3Jnm2ohE01G+Q==}
     engines: {node: '>=18.17'}
 
   unified@10.1.2:
@@ -3737,7 +3737,7 @@ snapshots:
       cookie-signature: 1.2.1
       source-map-support: 0.5.21
       stream-slice: 0.1.2
-      undici: 6.19.5
+      undici: 6.19.6
     optionalDependencies:
       typescript: 5.5.4
 
@@ -5632,7 +5632,7 @@ snapshots:
 
   outdent@0.8.0: {}
 
-  ozen-bot@https://codeload.github.com/berkziya/ozen-bot/tar.gz/33f16044192125c7a80ee9eb0c225b9f5c55e048:
+  ozen-bot@https://codeload.github.com/berkziya/ozen-bot/tar.gz/f857e66c6fac89a3f58e7af5671a912cef75cfc2:
     dependencies:
       '@prisma/adapter-pg': 5.18.0(pg@8.12.0)
       '@prisma/client': 5.18.0
@@ -6237,7 +6237,7 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  tailwindcss@3.4.8:
+  tailwindcss@3.4.9:
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2
@@ -6363,7 +6363,7 @@ snapshots:
 
   undici-types@6.13.0: {}
 
-  undici@6.19.5: {}
+  undici@6.19.6: {}
 
   unified@10.1.2:
     dependencies:
