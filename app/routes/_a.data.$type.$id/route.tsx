@@ -4,6 +4,7 @@ import { getRegionInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getRegionInfo
 import { getAutonomyInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getAutonomyInfo';
 import { getStateInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getStateInfo';
 import { getFactoryInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getFactoryInfo';
+import { getWarInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getWarInfo';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import ClientHandler from '~/.server/clientHandler';
 
@@ -23,6 +24,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
     data = await getStateInfo(user, id);
   } else if (type === 'factory') {
     data = await getFactoryInfo(user, id);
+  } else if (type === 'war') {
+    data = await getWarInfo(user, id);
   }
   return { data };
 }

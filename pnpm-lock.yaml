@@ -22,7 +22,7 @@ importers:
         version: 4.4.0
       ozen-bot:
         specifier: github:berkziya/ozen-bot
-        version: https://codeload.github.com/berkziya/ozen-bot/tar.gz/f857e66c6fac89a3f58e7af5671a912cef75cfc2
+        version: https://codeload.github.com/berkziya/ozen-bot/tar.gz/e5ce9387e9c12e5463b62b2f18ed6fae91558f7a
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -2255,8 +2255,8 @@ packages:
   outdent@0.8.0:
     resolution: {integrity: sha512-KiOAIsdpUTcAXuykya5fnVVT+/5uS0Q1mrkRHcF89tpieSmY33O/tmc54CqwA+bfhbtEfZUNLHaPUiB9X3jt1A==}
 
-  ozen-bot@https://codeload.github.com/berkziya/ozen-bot/tar.gz/f857e66c6fac89a3f58e7af5671a912cef75cfc2:
-    resolution: {tarball: https://codeload.github.com/berkziya/ozen-bot/tar.gz/f857e66c6fac89a3f58e7af5671a912cef75cfc2}
+  ozen-bot@https://codeload.github.com/berkziya/ozen-bot/tar.gz/e5ce9387e9c12e5463b62b2f18ed6fae91558f7a:
+    resolution: {tarball: https://codeload.github.com/berkziya/ozen-bot/tar.gz/e5ce9387e9c12e5463b62b2f18ed6fae91558f7a}
     version: 0.0.7
 
   p-limit@3.1.0:
@@ -5632,7 +5632,7 @@ snapshots:
 
   outdent@0.8.0: {}
 
-  ozen-bot@https://codeload.github.com/berkziya/ozen-bot/tar.gz/f857e66c6fac89a3f58e7af5671a912cef75cfc2:
+  ozen-bot@https://codeload.github.com/berkziya/ozen-bot/tar.gz/e5ce9387e9c12e5463b62b2f18ed6fae91558f7a:
     dependencies:
       '@prisma/adapter-pg': 5.18.0(pg@8.12.0)
       '@prisma/client': 5.18.0
@@ -5640,6 +5640,7 @@ snapshots:
       cheerio: 1.0.0-rc.12
       pg: 8.12.0
       playwright: 1.46.0
+      tiny-invariant: 1.3.3
     transitivePeerDependencies:
       - pg-native
       - prisma
