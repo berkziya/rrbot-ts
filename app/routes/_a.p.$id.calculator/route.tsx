@@ -1,23 +1,29 @@
-import { json, ActionFunctionArgs } from '@remix-run/node';
+import { json, ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { useLoaderData, useActionData, Form } from '@remix-run/react';
 import { useEffect, useState } from 'react';
+import invariant from 'tiny-invariant';
+import ClientHandler from '~/.server/clientHandler';
 
-export async function loader() {
+export async function loader({ params }: LoaderFunctionArgs) {
+  const playerId = parseInt(params.id!);
+  const client = await ClientHandler.getInstance();
+  const user = await client.getUser(playerId);
+  invariant(user, 'User not found');
   return json({
     initialRates: {
-      berryToGold: 52.5e3 / 28e12,
+      berryToGold: 18e3 / 10e12,
 
-      goldToOil: 2_940_704 / 10,
-      goldToOre: 3_345_723 / 10,
-      goldToUranium: 373_259 / 10,
-      goldToDiamonds: 462 / 10,
-      goldToHelium: 955 / 10,
-      goldToDamage: 3e6 / 300,
+      goldToOil: 2988364,
+      goldToOre: 3429115,
+      goldToUranium: 376941,
+      goldToDiamonds: 462,
+      goldToHelium: 955,
+      goldToDamage: 3e6 / 30,
 
-      goldToBerry: 250e6 / 10,
+      goldToBerry: 250e6 / 1,
 
-      oilToBerry: 106 / 1,
-      oreToBerry: 100 / 1,
+      oilToBerry: 160 / 1,
+      oreToBerry: 106 / 1,
       uraniumToBerry: 1e3 / 1,
       diamondsToBerry: 800e3 / 1,
       heliumToBerry: 505e3 / 1,
@@ -50,7 +56,9 @@ export async function action({ request }: ActionFunctionArgs) {
     berryToMoney: parseFloat(formData.get('berryToMoney') as string),
     MoneyToBerry: parseFloat(formData.get('MoneyToBerry') as string),
   };
-  const gold = 20e3;
+
+  const gold = 18e3;
+
   const resources = {
     oil: gold * rates.goldToOil,
     ore: gold * rates.goldToOre,
@@ -60,6 +68,7 @@ export async function action({ request }: ActionFunctionArgs) {
     damage: gold * rates.goldToDamage,
     fixed: gold,
   };
+
   const berry: { [key: string]: number } = {
     oil: resources.oil * rates.oilToBerry,
     ore: resources.ore * rates.oreToBerry,
@@ -79,7 +88,6 @@ export async function action({ request }: ActionFunctionArgs) {
     damage: berry.damage * rates.berryToGold,
     fixed: berry.fixed * rates.berryToGold,
   };
-  // floor it
   Object.keys(backToGold).forEach((key) => {
     backToGold[key] = Math.floor(backToGold[key]);
   });

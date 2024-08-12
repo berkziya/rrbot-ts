@@ -1,5 +1,4 @@
 import { Client } from 'ozen-bot/dist/Client';
-import { UserContext } from 'ozen-bot/dist/UserContext';
 import invariant from 'tiny-invariant';
 
 class ClientHandler {
@@ -18,7 +17,7 @@ class ClientHandler {
 
   private async initializeClient() {
     this.client = new Client({ browserType: 'firefox' });
-    const browser = await this.client.init({ headless: true });
+    const browser = await this.client.init({ headless: false });
     invariant(browser, 'Browser not initialized');
   }
 
