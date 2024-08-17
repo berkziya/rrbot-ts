@@ -1,11 +1,8 @@
 import { ActionFunctionArgs, json } from '@remix-run/node';
 import { Form, useActionData } from '@remix-run/react';
+import { UserContext } from 'ozen-bot/dist/UserContext';
 import invariant from 'tiny-invariant';
 import ClientHandler from '~/.server/clientHandler';
-
-export async function loader() {
-  return null;
-}
 
 export async function action({ request }: ActionFunctionArgs) {
   const client = (await ClientHandler.getInstance()).getClient();
@@ -14,16 +11,25 @@ export async function action({ request }: ActionFunctionArgs) {
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
 
-  const user = await client.createUserContext();
-  const result = await user.login(email, password);
+  try {
+    const user = await client.createUserContext();
+    const id = await user.login(email, password);
 
-  invariant(result, 'Login failed');
-  const users = [...client.users];
-  return json({ users });
+    invariant(id, 'Login failed');
+    const users = [...client.users];
+    return json({ users, id });
+  } catch (error) {
+    return json({ error: (error as Error).message }, { status: 400 });
+  }
 }
 
 export default function Login() {
-  const users = useActionData();
+  const data = useActionData<{
+    error?: string;
+    users?: any[];
+    id?: number;
+  }>();
+  const newUser = data?.users?.find((x) => x.id == data.id);
   return (
     <div className='flex flex-col items-center m-12'>
       <Form method='post' className='flex flex-col gap-4'>
@@ -31,7 +37,8 @@ export default function Login() {
         <input type='password' name='password' className='' />
         <button type='submit'>Submit</button>
       </Form>
-      {users ? <p>{JSON.stringify(users, null, 2)}</p> : null}
+      {data?.error && <p className='text-red-500'>{data.error}</p>}
+      {newUser && <p>{JSON.stringify(newUser, null, 2)}</p>}
     </div>
   );
 }
