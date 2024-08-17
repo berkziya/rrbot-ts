@@ -16,16 +16,24 @@ class ClientHandler {
   }
 
   private async initializeClient() {
-    this.client = new Client({ browserType: 'firefox' });
-    const browser = await this.client.init({ headless: true });
-    invariant(browser, 'Browser not initialized');
+    try {
+      this.client = new Client({ browserType: 'firefox' });
+      const browser = await this.client.init({ headless: false });
+      invariant(browser, 'Browser not initialized');
+    } catch (e) {
+      console.error('Error initializing client', e);
+      process.exit(1);
+    }
   }
 
   public async getClient() {
-    if (!this.client) {
-      throw new Error('Client not initialized');
+    try {
+      invariant(this.client, 'Client not initialized');
+      return this.client;
+    } catch (e) {
+      console.error('Error getting client', e);
     }
-    return this.client;
+    return null;
   }
 
   public isClientRelevant(): boolean {
@@ -34,19 +42,21 @@ class ClientHandler {
   }
 
   public async getUser(playerId?: number) {
-    const usersArray = Array.from((await this.getClient()).users);
-    if (!playerId) {
-      const user = usersArray[Math.floor(Math.random() * usersArray.length)];
-      if (!user) {
-        throw new Error('User not found');
+    try {
+      const availableClient = await this.getClient();
+      invariant(availableClient, 'No client available');
+      const usersArray = Array.from(availableClient.users);
+      if (!playerId) {
+        const user = usersArray[Math.floor(Math.random() * usersArray.length)];
+        invariant(user, 'No user found');
+        return user;
       }
+      const user = usersArray.find((user) => user.id === playerId);
+      invariant(user, `No user found with id ${playerId}`);
       return user;
+    } catch (e) {
+      console.error('Error getting user', e);
     }
-    const user = usersArray.find((user) => user.id === playerId);
-    if (!user) {
-      throw new Error('User not found');
-    }
-    return user;
   }
 }
 

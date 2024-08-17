@@ -7,10 +7,13 @@ import {
   getStateResidents,
   getWarDamageList,
 } from 'ozen-bot/dist/baseFunctions/getInfo/misc/getPlayerList';
+import invariant from 'tiny-invariant';
 import ClientHandler from '~/.server/clientHandler';
 
 export async function action({ request }: ActionFunctionArgs) {
-  const user = await (await ClientHandler.getInstance()).getUser();
+  const availableClient = await ClientHandler.getInstance();
+  const user = await availableClient.getUser();
+  invariant(user, 'No user found');
   const formData = await request.formData();
   const list = formData.get('list') as string;
   const id = parseInt(formData.get('id') as string);

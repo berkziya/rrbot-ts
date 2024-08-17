@@ -7,10 +7,12 @@ import { getFactoryInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getFactoryIn
 import { getWarInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getWarInfo';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import ClientHandler from '~/.server/clientHandler';
+import invariant from 'tiny-invariant';
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const client = await ClientHandler.getInstance();
   const user = await client.getUser();
+  invariant(user, 'No user found');
   const id = parseInt(params.id!);
   const type = params.type;
   let data: any = null;
