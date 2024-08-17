@@ -5,17 +5,18 @@ import invariant from 'tiny-invariant';
 import ClientHandler from '~/.server/clientHandler';
 
 export async function action({ request }: ActionFunctionArgs) {
-  const client = (await ClientHandler.getInstance()).getClient();
+  const client = await (await ClientHandler.getInstance()).getClient();
   invariant(client, 'Client not initialized');
   const formData = await request.formData();
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
+  const isMobile = formData.get('isMobile') === 'on';
 
   try {
-    const user = await client.createUserContext();
-    const id = await user.login(email, password);
-
+    const user = await client.createUserContext({ isMobile });
+    const id = await user!.login(email, password);
     invariant(id, 'Login failed');
+
     const users = [...client.users];
     return json({ users, id });
   } catch (error) {
@@ -26,7 +27,7 @@ export async function action({ request }: ActionFunctionArgs) {
 export default function Login() {
   const data = useActionData<{
     error?: string;
-    users?: any[];
+    users?: UserContext[];
     id?: number;
   }>();
   const newUser = data?.users?.find((x) => x.id == data.id);
@@ -35,6 +36,9 @@ export default function Login() {
       <Form method='post' className='flex flex-col gap-4'>
         <input type='email' name='email' autoFocus={true} className='' />
         <input type='password' name='password' className='' />
+        <label>
+          <input type='checkbox' name='isMobile' /> is Mobile
+        </label>
         <button type='submit'>Submit</button>
       </Form>
       {data?.error && <p className='text-red-500'>{data.error}</p>}

@@ -17,11 +17,11 @@ class ClientHandler {
 
   private async initializeClient() {
     this.client = new Client({ browserType: 'firefox' });
-    const browser = await this.client.init({ headless: false });
+    const browser = await this.client.init({ headless: true });
     invariant(browser, 'Browser not initialized');
   }
 
-  public getClient(): Client {
+  public async getClient() {
     if (!this.client) {
       throw new Error('Client not initialized');
     }
@@ -34,7 +34,7 @@ class ClientHandler {
   }
 
   public async getUser(playerId?: number) {
-    const usersArray = Array.from(this.getClient().users);
+    const usersArray = Array.from((await this.getClient()).users);
     if (!playerId) {
       const user = usersArray[Math.floor(Math.random() * usersArray.length)];
       if (!user) {
