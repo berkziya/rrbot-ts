@@ -22,7 +22,7 @@ export async function action({ request }: ActionFunctionArgs) {
   return { users, userId };
 }
 
-export default function LoginButCookie() {
+export default function Login() {
   const { users, userId } = useActionData<typeof action>() || {};
   const newUser = users?.find((x) => x.id == userId);
 

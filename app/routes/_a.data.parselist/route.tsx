@@ -14,10 +14,11 @@ export async function action({ request }: ActionFunctionArgs) {
   const availableClient = await ClientHandler.getInstance();
   const user = await availableClient.getUser();
   invariant(user, 'No user found');
+
   const formData = await request.formData();
   const list = formData.get('list') as string;
   const id = parseInt(formData.get('id') as string);
-  let players: any[] = [];
+  let players: any = null;
   switch (list) {
     case 'citizenList':
       players = await getCitizenList(user, id);
@@ -60,16 +61,23 @@ export default function Parser() {
           Parse
         </button>
       </Form>
-      {actionData?.players && (
+      {actionData && actionData.players && (
         <div>
-          {actionData.players.map((player) => (
-            <div key={player.id} className='border p-1 flex justify-between'>
-              <div className='font-bold'>{player.id}</div>
-              <div>{player.name}</div>
-              <div>{player.level}</div>
-              <div>{player.damage}</div>
-            </div>
-          ))}
+          {actionData.players.map(
+            (player: {
+              id: string;
+              name: string;
+              level: number;
+              damage: number;
+            }) => (
+              <div key={player.id} className='border p-1 flex justify-between'>
+                <div className='font-bold'>{player.id}</div>
+                <div>{player.name}</div>
+                <div>{player.level}</div>
+                <div>{player.damage}</div>
+              </div>
+            )
+          )}
         </div>
       )}
     </div>

@@ -1,5 +1,6 @@
-import { json, ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
+import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { useLoaderData, useActionData, Form } from '@remix-run/react';
+import { stringify } from 'flatted';
 import { useEffect, useState } from 'react';
 import invariant from 'tiny-invariant';
 import ClientHandler from '~/.server/clientHandler';
@@ -8,8 +9,9 @@ export async function loader({ params }: LoaderFunctionArgs) {
   const playerId = parseInt(params.id!);
   const client = await ClientHandler.getInstance();
   const user = await client.getUser(playerId);
-  invariant(user, 'User not found');
-  return json({
+  invariant(user, 'No user found');
+
+  return {
     initialRates: {
       berryToGold: 18e3 / 10e12,
 
@@ -32,7 +34,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
       berryToMoney: 18 / 1e12,
       MoneyToBerry: 1e12 / 21,
     },
-  });
+  };
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -110,7 +112,7 @@ export async function action({ request }: ActionFunctionArgs) {
     return best;
   }, 'oil');
 
-  return json({ bestConversion, conversion, backToGold });
+  return { bestConversion, conversion, backToGold };
 }
 
 export default function Convert() {
@@ -131,7 +133,7 @@ export default function Convert() {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setRates((prevRates: any) => ({
+    setRates((prevRates) => ({
       ...prevRates,
       [name]: parseFloat(value) || 0,
     }));
@@ -162,16 +164,14 @@ export default function Convert() {
       </div>
       <div className='w-1/4 p-4'>
         <h2>Best Conversion</h2>
-        {actionData?.bestConversion ? (
+        {actionData && actionData.bestConversion && (
           <div>
             <p>{actionData.bestConversion}</p>
             <h3>Conversion</h3>
-            <pre>{JSON.stringify(actionData.conversion, null, 2)}</pre>
+            <p>{stringify(actionData.conversion)}</p>
             <h3>Back to Gold</h3>
-            <pre>{JSON.stringify(actionData.backToGold, null, 2)}</pre>
+            <p>{stringify(actionData.backToGold)}</p>
           </div>
-        ) : (
-          <p>No conversion calculated yet.</p>
         )}
       </div>
     </div>

@@ -11,8 +11,8 @@ const ABORT_DELAY = 5_000;
 
 async function initializeClientHandler() {
   try {
-    await ClientHandler.getInstance();
-    console.log('ClientHandler initialized successfully');
+    const client = await (await ClientHandler.getInstance()).getClient();
+    await client?.autoCreateContexts();
   } catch (error) {
     console.error('Failed to initialize ClientHandler:', error);
   }

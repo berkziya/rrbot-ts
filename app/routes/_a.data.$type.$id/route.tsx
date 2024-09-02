@@ -8,13 +8,16 @@ import { getWarInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getWarInfo';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import ClientHandler from '~/.server/clientHandler';
 import invariant from 'tiny-invariant';
+import { stringify } from 'flatted';
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const client = await ClientHandler.getInstance();
-  const user = await client.getUser();
-  invariant(user, 'No user found');
   const id = parseInt(params.id!);
   const type = params.type;
+
+  const availableClient = await ClientHandler.getInstance();
+  const user = await availableClient.getUser();
+  invariant(user, 'No user found');
+
   let data: any = null;
   if (type === 'player') {
     data = await getPlayerInfo(user, id);
@@ -32,9 +35,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
   return { data };
 }
 
-export const route = () => {
+export default function DataView() {
   const { data } = useLoaderData<typeof loader>();
-  return <p>{JSON.stringify(data)}</p>;
-};
 
-export default route;
+  return <p>{stringify(data)}</p>;
+}

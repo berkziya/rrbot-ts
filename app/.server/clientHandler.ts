@@ -11,6 +11,7 @@ class ClientHandler {
     if (!ClientHandler.instance) {
       ClientHandler.instance = new ClientHandler();
       await ClientHandler.instance.initializeClient();
+      console.log('Client initialized');
     }
     return ClientHandler.instance;
   }
@@ -18,7 +19,7 @@ class ClientHandler {
   private async initializeClient() {
     try {
       this.client = new Client({ browserType: 'firefox' });
-      const browser = await this.client.init({ headless: false });
+      const browser = await this.client.init({ headless: true });
       invariant(browser, 'Browser not initialized');
     } catch (e) {
       console.error('Error initializing client', e);

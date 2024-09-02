@@ -1,23 +1,22 @@
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { stringify } from 'flatted';
-import { mainPageInfo } from 'ozen-bot/dist/baseFunctions/getInfo/misc/mainPageInfo';
-import { storageInfo } from 'ozen-bot/dist/baseFunctions/getInfo/misc/storageInfo';
 import invariant from 'tiny-invariant';
 import ClientHandler from '~/.server/clientHandler';
+import { getWarList } from 'ozen-bot/dist/baseFunctions/getInfo/misc/getWarList';
+import { stringify } from 'flatted';
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const playerId = parseInt(params.id!);
+  const stateId = parseInt(params.id!);
   const client = await ClientHandler.getInstance();
-  const user = await client.getUser(playerId);
+  const user = await client.getUser();
   invariant(user, 'No user found');
-  await storageInfo(user);
-  const data = await mainPageInfo(user);
-  return { data };
+
+  const data = await getWarList(user, stateId);
+  return data;
 }
 
 export default function UserPage() {
-  const { data } = useLoaderData<typeof loader>();
+  const data = useLoaderData<typeof loader>();
   return (
     <div>
       <p>{stringify(data)}</p>
