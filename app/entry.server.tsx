@@ -5,20 +5,8 @@ import { createReadableStreamFromReadable } from '@remix-run/node';
 import { RemixServer } from '@remix-run/react';
 import * as isbotModule from 'isbot';
 import { renderToPipeableStream } from 'react-dom/server';
-import ClientHandler from './.server/clientHandler';
 
 const ABORT_DELAY = 5_000;
-
-async function initializeClientHandler() {
-  try {
-    const client = await (await ClientHandler.getInstance()).getClient();
-    await client?.autoCreateContexts();
-  } catch (error) {
-    console.error('Failed to initialize ClientHandler:', error);
-  }
-}
-
-initializeClientHandler();
 
 export default function handleRequest(
   request: Request,

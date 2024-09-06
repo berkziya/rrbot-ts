@@ -1,14 +1,13 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { useLoaderData, useActionData, Form } from '@remix-run/react';
-import { stringify } from 'flatted';
+import { Form, useActionData, useLoaderData } from '@remix-run/react';
+import { UserHandler } from 'ozen-bot/dist/UserHandler';
 import { useEffect, useState } from 'react';
 import invariant from 'tiny-invariant';
-import ClientHandler from '~/.server/clientHandler';
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const playerId = parseInt(params.id!);
-  const client = await ClientHandler.getInstance();
-  const user = await client.getUser(playerId);
+  const client = UserHandler.getInstance();
+  const user = client.getUser(playerId);
   invariant(user, 'No user found');
 
   return {
@@ -168,9 +167,9 @@ export default function Convert() {
           <div>
             <p>{actionData.bestConversion}</p>
             <h3>Conversion</h3>
-            <p>{stringify(actionData.conversion)}</p>
+            <p>{JSON.stringify(actionData.conversion)}</p>
             <h3>Back to Gold</h3>
-            <p>{stringify(actionData.backToGold)}</p>
+            <p>{JSON.stringify(actionData.backToGold)}</p>
           </div>
         )}
       </div>

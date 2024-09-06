@@ -1,22 +1,19 @@
 import { Link, Outlet, useLoaderData } from '@remix-run/react';
 import { Player } from 'ozen-bot/dist/entity/Player';
-import { UserContext } from 'ozen-bot/dist/UserContext';
+import { UserHandler } from 'ozen-bot/dist/UserHandler';
 import invariant from 'tiny-invariant';
-import ClientHandler from '~/.server/clientHandler';
 
 export async function loader() {
-  const client = await (await ClientHandler.getInstance()).getClient();
+  const client = UserHandler.getInstance();
   invariant(client, 'Client is not initialized');
 
-  const users: UserContext[] = [...client.users].filter(
-    (u) => u.player instanceof Player
-  );
-
-  return { users };
+  return { users: [...client.users] };
 }
 
 export default function Players() {
   const { users } = useLoaderData<typeof loader>();
+
+  console.log(users);
   return (
     <div className='flex flex-col bg-gray-300'>
       <div className='flex flex-row'>
@@ -25,11 +22,11 @@ export default function Players() {
         </Link>
         {users.map((u) => (
           <Link
-            key={`${u.id}-${u.isMobile ? 'mobile' : ''}`}
-            to={`/p/${u.id}`}
+            key={`${u.who}-${u.isMobile ? 'mobile' : ''}`}
+            to={`/p/${(u.player as Player).id}`}
             className='p-6 content-center bg-cyan-200 even:bg-cyan-300'
           >
-            {u.player.name}
+            {(u.player as Player).name}
           </Link>
         ))}
       </div>

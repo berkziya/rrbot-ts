@@ -1,21 +1,20 @@
-import { useLoaderData } from '@remix-run/react';
-import { getPlayerInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getPlayerInfo';
-import { getRegionInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getRegionInfo';
-import { getAutonomyInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getAutonomyInfo';
-import { getStateInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getStateInfo';
-import { getFactoryInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getFactoryInfo';
-import { getWarInfo } from 'ozen-bot/dist/baseFunctions/getInfo/getWarInfo';
 import { LoaderFunctionArgs } from '@remix-run/node';
-import ClientHandler from '~/.server/clientHandler';
+import { useLoaderData } from '@remix-run/react';
+import { getAutonomyInfo } from 'ozen-bot/dist/functions/getInfo/getAutonomyInfo';
+import { getFactoryInfo } from 'ozen-bot/dist/functions/getInfo/getFactoryInfo';
+import { getPlayerInfo } from 'ozen-bot/dist/functions/getInfo/getPlayerInfo';
+import { getRegionInfo } from 'ozen-bot/dist/functions/getInfo/getRegionInfo';
+import { getStateInfo } from 'ozen-bot/dist/functions/getInfo/getStateInfo';
+import { getWarInfo } from 'ozen-bot/dist/functions/getInfo/getWarInfo';
+import { UserHandler } from 'ozen-bot/dist/UserHandler';
 import invariant from 'tiny-invariant';
-import { stringify } from 'flatted';
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const id = parseInt(params.id!);
   const type = params.type;
 
-  const availableClient = await ClientHandler.getInstance();
-  const user = await availableClient.getUser();
+  const availableClient = UserHandler.getInstance();
+  const user = availableClient.getUser();
   invariant(user, 'No user found');
 
   let data: any = null;
@@ -38,5 +37,5 @@ export async function loader({ params }: LoaderFunctionArgs) {
 export default function DataView() {
   const { data } = useLoaderData<typeof loader>();
 
-  return <p>{stringify(data)}</p>;
+  return <p>{JSON.stringify(data)}</p>;
 }

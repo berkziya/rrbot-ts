@@ -1,43 +1,35 @@
 import { ActionFunctionArgs } from '@remix-run/node';
 import { Form, useActionData } from '@remix-run/react';
+import { UserHandler } from 'ozen-bot/dist/UserHandler';
 import invariant from 'tiny-invariant';
-import ClientHandler from '~/.server/clientHandler';
-import { stringify } from 'flatted';
 
 export async function action({ request }: ActionFunctionArgs) {
-  const availableClient = await ClientHandler.getInstance();
-  const client = await availableClient.getClient();
+  const client = UserHandler.getInstance();
   invariant(client, 'Client not initialized');
 
   const formData = await request.formData();
+  const who = formData.get('who') as string;
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
-  const isMobile = formData.get('isMobile') === 'on';
 
-  const user = await client.createUserContext({ isMobile });
-  const userId = await user?.login(email, password);
-  invariant(userId, 'Login failed');
+  const user = await client.createUser(who, email, password);
+  invariant(user?.id, 'Login failed');
 
-  const users = [...client.users];
-  return { users, userId };
+  return { user };
 }
 
-export default function LoginButCookie() {
-  const { users, userId } = useActionData<typeof action>() || {};
-  const newUser = users?.find((x) => x.id == userId);
+export default function Login() {
+  const { user } = useActionData<typeof action>() || {};
 
   return (
     <div className='flex flex-col items-center m-12'>
       <Form method='post' className='flex flex-col gap-4'>
+        <input type='text' name='who' autoFocus={true} className='' />
         <input type='email' name='email' autoFocus={true} className='' />
         <input type='password' name='password' className='' />
-        <label>
-          <input type='checkbox' name='isMobile' /> is Mobile
-        </label>
         <button type='submit'>Submit</button>
       </Form>
-      {/* {error && <p className='text-red-500'>{error}</p>} */}
-      {newUser && <p>{stringify(newUser)}</p>}
+      {user && <p>{JSON.stringify(user)}</p>}
     </div>
   );
 }
