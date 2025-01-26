@@ -1,28 +1,31 @@
+import {
+  getAutonomyInfo,
+  getFactoryInfo,
+  getPlayerInfo,
+  getRegionInfo,
+  getStateInfo,
+  getWarInfo,
+} from "@berkziya/ozen-bot";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import invariant from "tiny-invariant";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const id = parseInt(params.id!);
   const type = params.type;
 
-  const availableClient = UserHandler.getInstance();
-  const user = availableClient.getUser();
-  invariant(user, "No user found");
-
   let data: any = null;
   if (type === "player") {
-    data = await getPlayerInfo(user, id);
+    data = await getPlayerInfo(id);
   } else if (type === "region") {
-    data = await getRegionInfo(user, id);
+    data = await getRegionInfo(id);
   } else if (type === "autonomy") {
-    data = await getAutonomyInfo(user, id);
+    data = await getAutonomyInfo(id);
   } else if (type === "state") {
-    data = await getStateInfo(user, id);
+    data = await getStateInfo(id);
   } else if (type === "factory") {
-    data = await getFactoryInfo(user, id);
+    data = await getFactoryInfo(id);
   } else if (type === "war") {
-    data = await getWarInfo(user, id);
+    data = await getWarInfo(id);
   }
   return { data };
 }

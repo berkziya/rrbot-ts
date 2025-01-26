@@ -2,10 +2,11 @@ import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import invariant from "tiny-invariant";
+import { UserService } from "@berkziya/ozen-bot";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const playerId = parseInt(params.id!);
-  const client = UserHandler.getInstance();
+  const client = UserService.getInstance();
   const user = client.getUser(playerId);
   invariant(user, "No user found");
 

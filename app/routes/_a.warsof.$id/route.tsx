@@ -1,14 +1,16 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
+import { UserService } from "@berkziya/ozen-bot";
+import { getWarList } from "@berkziya/ozen-bot/dist/functions/getInfo/misc/getWarList";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const stateId = parseInt(params.id!);
-  const client = UserHandler.getInstance();
+  const client = UserService.getInstance();
   const user = client.getUser();
   invariant(user, "No user found");
 
-  const data = await getWarList(user, stateId);
+  const data = await getWarList(stateId);
   return data;
 }
 

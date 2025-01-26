@@ -1,8 +1,9 @@
+import { Player, UserService } from "@berkziya/ozen-bot";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
 export async function loader() {
-  const client = UserHandler.getInstance();
+  const client = UserService.getInstance();
   invariant(client, "Client is not initialized");
 
   return { users: [...client.users] };
@@ -12,7 +13,7 @@ export default function Players() {
   const { users } = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col bg-gray-300">
+    <div className="flex flex-col bg-gray-200">
       <div className="flex flex-row">
         <Link to="/" className="p-6 content-center bg-cyan-200">
           <h1>Add</h1>
