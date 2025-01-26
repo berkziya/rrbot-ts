@@ -1,14 +1,13 @@
-import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
-import { Form, useActionData, useLoaderData } from '@remix-run/react';
-import { UserHandler } from 'ozen-bot/dist/UserHandler';
-import { useEffect, useState } from 'react';
-import invariant from 'tiny-invariant';
+import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import { useEffect, useState } from "react";
+import invariant from "tiny-invariant";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const playerId = parseInt(params.id!);
   const client = UserHandler.getInstance();
   const user = client.getUser(playerId);
-  invariant(user, 'No user found');
+  invariant(user, "No user found");
 
   return {
     initialRates: {
@@ -39,23 +38,23 @@ export async function loader({ params }: LoaderFunctionArgs) {
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const rates = {
-    berryToGold: parseFloat(formData.get('berryToGold') as string),
+    berryToGold: parseFloat(formData.get("berryToGold") as string),
 
-    goldToOil: parseFloat(formData.get('goldToOil') as string),
-    goldToOre: parseFloat(formData.get('goldToOre') as string),
-    goldToUranium: parseFloat(formData.get('goldToUranium') as string),
-    goldToDiamonds: parseFloat(formData.get('goldToDiamonds') as string),
-    goldToHelium: parseFloat(formData.get('goldToHelium') as string),
-    goldToDamage: parseFloat(formData.get('goldToDamage') as string),
-    goldToBerry: parseFloat(formData.get('goldToBerry') as string),
-    oilToBerry: parseFloat(formData.get('oilToBerry') as string),
-    oreToBerry: parseFloat(formData.get('oreToBerry') as string),
-    uraniumToBerry: parseFloat(formData.get('uraniumToBerry') as string),
-    diamondsToBerry: parseFloat(formData.get('diamondsToBerry') as string),
-    heliumToBerry: parseFloat(formData.get('heliumToBerry') as string),
-    damageToBerry: parseFloat(formData.get('damageToBerry') as string),
-    berryToMoney: parseFloat(formData.get('berryToMoney') as string),
-    MoneyToBerry: parseFloat(formData.get('MoneyToBerry') as string),
+    goldToOil: parseFloat(formData.get("goldToOil") as string),
+    goldToOre: parseFloat(formData.get("goldToOre") as string),
+    goldToUranium: parseFloat(formData.get("goldToUranium") as string),
+    goldToDiamonds: parseFloat(formData.get("goldToDiamonds") as string),
+    goldToHelium: parseFloat(formData.get("goldToHelium") as string),
+    goldToDamage: parseFloat(formData.get("goldToDamage") as string),
+    goldToBerry: parseFloat(formData.get("goldToBerry") as string),
+    oilToBerry: parseFloat(formData.get("oilToBerry") as string),
+    oreToBerry: parseFloat(formData.get("oreToBerry") as string),
+    uraniumToBerry: parseFloat(formData.get("uraniumToBerry") as string),
+    diamondsToBerry: parseFloat(formData.get("diamondsToBerry") as string),
+    heliumToBerry: parseFloat(formData.get("heliumToBerry") as string),
+    damageToBerry: parseFloat(formData.get("damageToBerry") as string),
+    berryToMoney: parseFloat(formData.get("berryToMoney") as string),
+    MoneyToBerry: parseFloat(formData.get("MoneyToBerry") as string),
   };
 
   const gold = 18e3;
@@ -89,6 +88,7 @@ export async function action({ request }: ActionFunctionArgs) {
     damage: berry.damage * rates.berryToGold,
     fixed: berry.fixed * rates.berryToGold,
   };
+
   Object.keys(backToGold).forEach((key) => {
     backToGold[key] = Math.floor(backToGold[key]);
   });
@@ -109,7 +109,7 @@ export async function action({ request }: ActionFunctionArgs) {
       return key;
     }
     return best;
-  }, 'oil');
+  }, "oil");
 
   return { bestConversion, conversion, backToGold };
 }
@@ -127,7 +127,7 @@ export default function Convert() {
   });
 
   useEffect(() => {
-    localStorage.setItem('rates', JSON.stringify(rates));
+    localStorage.setItem("rates", JSON.stringify(rates));
   }, [rates]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -139,29 +139,29 @@ export default function Convert() {
   };
 
   return (
-    <div className='flex'>
-      <div className='w-3/4 p-4'>
+    <div className="flex">
+      <div className="w-3/4 p-4">
         <h2>Enter Conversion Rates</h2>
-        <Form method='post'>
+        <Form method="post">
           {Object.keys(rates).map((rate) => (
-            <div key={rate} className='mb-2'>
+            <div key={rate} className="mb-2">
               <label htmlFor={rate}>{rate}</label>
               <input
-                type='number'
+                type="number"
                 id={rate}
                 name={rate}
                 value={rates[rate]}
                 onChange={handleInputChange}
-                className='ml-2 border p-1'
+                className="ml-2 border p-1"
               />
             </div>
           ))}
-          <button type='submit' className='mt-4 p-2 bg-blue-500 text-white'>
+          <button type="submit" className="mt-4 p-2 bg-blue-500 text-white">
             Calculate Best Conversion
           </button>
         </Form>
       </div>
-      <div className='w-1/4 p-4'>
+      <div className="w-1/4 p-4">
         <h2>Best Conversion</h2>
         {actionData && actionData.bestConversion && (
           <div>

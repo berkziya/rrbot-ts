@@ -1,15 +1,12 @@
-import { LoaderFunctionArgs } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
-import { mainPageInfo } from 'ozen-bot/dist/functions/getInfo/misc/mainPageInfo';
-import { storageInfo } from 'ozen-bot/dist/functions/getInfo/misc/storageInfo';
-import { UserHandler } from 'ozen-bot/dist/UserHandler';
-import invariant from 'tiny-invariant';
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import invariant from "tiny-invariant";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const playerId = parseInt(params.id!);
   const client = UserHandler.getInstance();
   const user = client.getUser(playerId);
-  invariant(user, 'No user found');
+  invariant(user, "No user found");
   await storageInfo(user);
   const data = await mainPageInfo(user);
   return { data };

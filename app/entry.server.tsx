@@ -1,10 +1,10 @@
-import { PassThrough } from 'node:stream';
+import { PassThrough } from "node:stream";
 
-import type { AppLoadContext, EntryContext } from '@remix-run/node';
-import { createReadableStreamFromReadable } from '@remix-run/node';
-import { RemixServer } from '@remix-run/react';
-import * as isbotModule from 'isbot';
-import { renderToPipeableStream } from 'react-dom/server';
+import type { AppLoadContext, EntryContext } from "@remix-run/node";
+import { createReadableStreamFromReadable } from "@remix-run/node";
+import { RemixServer } from "@remix-run/react";
+import * as isbotModule from "isbot";
+import { renderToPipeableStream } from "react-dom/server";
 
 const ABORT_DELAY = 5_000;
 
@@ -16,7 +16,7 @@ export default function handleRequest(
   loadContext: AppLoadContext
 ) {
   let prohibitOutOfOrderStreaming =
-    isBotRequest(request.headers.get('user-agent')) || remixContext.isSpaMode;
+    isBotRequest(request.headers.get("user-agent")) || remixContext.isSpaMode;
 
   return prohibitOutOfOrderStreaming
     ? handleBotRequest(
@@ -38,7 +38,7 @@ function isBotRequest(userAgent: string | null) {
     return false;
   }
 
-  if ('isbot' in isbotModule && typeof isbotModule.isbot === 'function') {
+  if ("isbot" in isbotModule && typeof isbotModule.isbot === "function") {
     return isbotModule.isbot(userAgent);
   }
 
@@ -65,7 +65,7 @@ function handleBotRequest(
           const body = new PassThrough();
           const stream = createReadableStreamFromReadable(body);
 
-          responseHeaders.set('Content-Type', 'text/html');
+          responseHeaders.set("Content-Type", "text/html");
 
           resolve(
             new Response(stream, {
@@ -112,7 +112,7 @@ function handleBrowserRequest(
           const body = new PassThrough();
           const stream = createReadableStreamFromReadable(body);
 
-          responseHeaders.set('Content-Type', 'text/html');
+          responseHeaders.set("Content-Type", "text/html");
 
           resolve(
             new Response(stream, {

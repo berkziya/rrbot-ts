@@ -1,11 +1,9 @@
-import { Link, Outlet, useLoaderData } from '@remix-run/react';
-import { Player } from 'ozen-bot/dist/entity/Player';
-import { UserHandler } from 'ozen-bot/dist/UserHandler';
-import invariant from 'tiny-invariant';
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import invariant from "tiny-invariant";
 
 export async function loader() {
   const client = UserHandler.getInstance();
-  invariant(client, 'Client is not initialized');
+  invariant(client, "Client is not initialized");
 
   return { users: [...client.users] };
 }
@@ -13,18 +11,17 @@ export async function loader() {
 export default function Players() {
   const { users } = useLoaderData<typeof loader>();
 
-  console.log(users);
   return (
-    <div className='flex flex-col bg-gray-300'>
-      <div className='flex flex-row'>
-        <Link to='/' className='p-6 content-center bg-cyan-200'>
+    <div className="flex flex-col bg-gray-300">
+      <div className="flex flex-row">
+        <Link to="/" className="p-6 content-center bg-cyan-200">
           <h1>Add</h1>
         </Link>
         {users.map((u) => (
           <Link
-            key={`${u.who}-${u.isMobile ? 'mobile' : ''}`}
+            key={`${u.who}-${u.isMobile ? "mobile" : ""}`}
             to={`/p/${(u.player as Player).id}`}
-            className='p-6 content-center bg-cyan-200 even:bg-cyan-300'
+            className="p-6 content-center bg-cyan-200 even:bg-cyan-300"
           >
             {(u.player as Player).name}
           </Link>
