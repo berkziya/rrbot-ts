@@ -1,8 +1,8 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import UserService from "node_modules/@berkziya/ozen-bot/user/UserService";
 import { useEffect, useState } from "react";
 import invariant from "tiny-invariant";
-import { UserService } from "@berkziya/ozen-bot";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const playerId = parseInt(params.id!);
