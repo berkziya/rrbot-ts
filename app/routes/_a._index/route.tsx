@@ -1,4 +1,4 @@
-import { UserService } from "@berkziya/ozen-bot";
+import { UserService } from "ozen-bot";
 import { ActionFunctionArgs } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
 import invariant from "tiny-invariant";

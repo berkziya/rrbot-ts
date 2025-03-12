@@ -1,8 +1,7 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import { UserService } from "@berkziya/ozen-bot";
-import { getWarList } from "@berkziya/ozen-bot/dist/functions/getInfo/misc/getWarList";
+import { UserService, getWarList } from "ozen-bot";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const stateId = parseInt(params.id!);

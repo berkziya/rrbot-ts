@@ -1,4 +1,4 @@
-import { mainPageInfo, storageInfo, UserService } from "@berkziya/ozen-bot";
+import { mainPageInfo, storageInfo, UserService } from "ozen-bot";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";

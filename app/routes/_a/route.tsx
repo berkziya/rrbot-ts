@@ -1,4 +1,4 @@
-import { Player, UserService } from "@berkziya/ozen-bot";
+import { Player, UserService } from "ozen-bot";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 

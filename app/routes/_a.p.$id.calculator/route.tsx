@@ -1,6 +1,6 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
-import UserService from "node_modules/@berkziya/ozen-bot/user/UserService";
+import { UserService } from "ozen-bot";
 import { useEffect, useState } from "react";
 import invariant from "tiny-invariant";
 

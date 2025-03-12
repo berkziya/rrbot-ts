@@ -5,7 +5,7 @@ import {
   getRegionInfo,
   getStateInfo,
   getWarInfo,
-} from "@berkziya/ozen-bot";
+} from "ozen-bot";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
